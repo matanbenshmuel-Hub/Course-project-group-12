@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>קביעת תור | מכון אינטגרציה</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <!-- Hero -->
+        <section class="hero-section hero-small hero-appointments">
+            <div class="hero-content">
+                <h1>קביעת תור</h1>
+                <p>בחרו תאריך ושעה נוחים לפגישה</p>
+            </div>
+        </section>
+
+        <!-- Calendar -->
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                    <div>
+                        <h4 class="mb-0">לוח התורים</h4>
+                        <p class="text-muted mb-0 small">לחצו על משבצת פנויה כדי לקבוע תור</p>
+                    </div>
+                    <div class="d-flex gap-2 align-items-center small">
+                        <span class="badge bg-light text-dark border">
+                            <span class="d-inline-block me-1" style="width:10px;height:10px;background:#fff;border:1px solid #ddd;"></span>פנוי
+                        </span>
+                        <span class="badge bg-light text-dark border">
+                            <span class="d-inline-block me-1" style="width:10px;height:10px;background:#fadbd8;"></span>תפוס
+                        </span>
+                        <span class="badge bg-light text-dark border">
+                            <span class="d-inline-block me-1" style="width:10px;height:10px;background:#d4efdf;border:2px solid #27ae60;"></span>שלי
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Week Navigation -->
+                <div class="week-nav">
+                    <button class="btn btn-outline-primary" id="prevWeek">→ שבוע קודם</button>
+                    <h5 id="weekLabel" class="mb-0"></h5>
+                    <button class="btn btn-outline-primary" id="nextWeek">שבוע הבא ←</button>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="calendar-container">
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Built dynamically -->
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-accent btn-lg px-5" id="openBookingBtn"
+                            data-bs-toggle="modal" data-bs-target="#bookingModal">
+                        קביעת תור חדש
+                    </button>
+                    <a href="dashboard.html" class="btn btn-outline-primary btn-lg px-4 ms-2">לתורים שלי</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--color-primary); color: white;">
+                    <h5 class="modal-title" id="bookingModalLabel">קביעת תור חדש</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="סגור"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="bookingForm" novalidate>
+                        <div class="mb-3">
+                            <label for="treatmentType" class="form-label fw-semibold">סוג טיפול <span class="text-danger">*</span></label>
+                            <select class="form-select" id="treatmentType" required>
+                                <option value="">בחרו סוג טיפול...</option>
+                            </select>
+                            <div class="invalid-feedback">נא לבחור סוג טיפול</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="therapistName" class="form-label fw-semibold">מטפל</label>
+                            <select class="form-select" id="therapistName">
+                                <option value="דותן בר-נתן" selected>דותן בר-נתן</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label fw-semibold">מיקום <span class="text-danger">*</span></label>
+                            <select class="form-select" id="location" required>
+                                <option value="">בחרו מיקום...</option>
+                                <option value="קליניקה - תל אביב">קליניקה - תל אביב</option>
+                                <option value="אונליין">אונליין</option>
+                            </select>
+                            <div class="invalid-feedback">נא לבחור מיקום</div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-7">
+                                <label for="appointmentDate" class="form-label fw-semibold">תאריך <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="appointmentDate" required>
+                                <div class="invalid-feedback">נא לבחור תאריך</div>
+                            </div>
+                            <div class="col-5">
+                                <label for="appointmentTime" class="form-label fw-semibold">שעה <span class="text-danger">*</span></label>
+                                <select class="form-select" id="appointmentTime" required>
+                                    <option value="">שעה...</option>
+                                </select>
+                                <div class="invalid-feedback">נא לבחור שעה</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label fw-semibold">הערות (אופציונלי)</label>
+                            <textarea class="form-control" id="notes" rows="2" maxlength="500"></textarea>
+                        </div>
+                        <div id="bookingError" class="alert alert-danger d-none"></div>
+                        <button type="submit" class="btn btn-accent w-100 py-2 fs-5" id="bookBtn">אישור תור</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/treatments.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/appointments.js"></script>
+</body>
+</html>

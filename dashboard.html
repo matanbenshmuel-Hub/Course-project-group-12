@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התורים שלי | מכון אינטגרציה</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <!-- Hero -->
+        <section class="hero-section hero-small hero-appointments">
+            <div class="hero-content">
+                <h1>התורים שלי</h1>
+                <p id="welcomeMsg">ברוכים השבים</p>
+            </div>
+        </section>
+
+        <!-- Dashboard Content -->
+        <section class="py-5">
+            <div class="container">
+                <!-- Summary Bar -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+                    <div>
+                        <h3 class="mb-0">שלום, <span id="userName"></span></h3>
+                        <p class="text-muted mb-0" id="appointmentSummary"></p>
+                    </div>
+                    <a href="appointments.html" class="btn btn-accent btn-lg">
+                        <span class="me-2">+</span>קביעת תור חדש
+                    </a>
+                </div>
+
+                <!-- Upcoming Appointments -->
+                <div class="mb-5">
+                    <h4 class="mb-3 d-flex align-items-center">
+                        <span class="badge bg-success me-2">●</span>
+                        תורים קרובים
+                    </h4>
+                    <div id="upcomingList" class="row g-3">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div id="upcomingEmpty" class="d-none text-center py-5">
+                        <p class="text-muted fs-5">אין תורים מתוכננים</p>
+                        <a href="appointments.html" class="btn btn-accent">קבעו תור ראשון</a>
+                    </div>
+                </div>
+
+                <!-- Past Appointments -->
+                <div class="mb-4">
+                    <button class="btn btn-link p-0 d-flex align-items-center mb-3" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#pastSection" aria-expanded="false">
+                        <h4 class="mb-0 text-decoration-none">
+                            <span class="badge bg-secondary me-2">●</span>
+                            תורים שעברו
+                        </h4>
+                    </button>
+                    <div class="collapse" id="pastSection">
+                        <div id="pastList" class="row g-3">
+                            <!-- Populated by JS -->
+                        </div>
+                        <p id="pastEmpty" class="text-muted text-center d-none">אין תורים בהיסטוריה</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--color-primary); color: white;">
+                    <h5 class="modal-title">עריכת תור</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="editForm" novalidate>
+                        <input type="hidden" id="editAppointmentId">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">סוג טיפול</label>
+                            <select class="form-select" id="editTreatmentType" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">מטפל</label>
+                            <select class="form-select" id="editTherapistName">
+                                <option value="דותן בר-נתן" selected>דותן בר-נתן</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">מיקום</label>
+                            <select class="form-select" id="editLocation" required>
+                                <option value="קליניקה - תל אביב">קליניקה - תל אביב</option>
+                                <option value="אונליין">אונליין</option>
+                            </select>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-7">
+                                <label class="form-label fw-semibold">תאריך</label>
+                                <input type="date" class="form-control" id="editDate" required>
+                            </div>
+                            <div class="col-5">
+                                <label class="form-label fw-semibold">שעה</label>
+                                <select class="form-select" id="editTime" required></select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">הערות (אופציונלי)</label>
+                            <textarea class="form-control" id="editNotes" rows="2"></textarea>
+                        </div>
+                        <div id="editError" class="alert alert-danger d-none"></div>
+                        <button type="submit" class="btn btn-accent w-100 py-2 fs-5" id="saveEditBtn">שמירת שינויים</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Confirmation Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--color-accent); color: white;">
+                    <h5 class="modal-title">ביטול תור</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <p class="fs-5 mb-2">האם לבטל את התור?</p>
+                    <p class="text-muted" id="cancelDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">חזרה</button>
+                    <button type="button" class="btn btn-danger" id="confirmCancelBtn">כן, בטל את התור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/treatments.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

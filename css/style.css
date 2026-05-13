@@ -1,0 +1,681 @@
+/* =========================================================================
+   style.css — single stylesheet for the entire site.
+
+   Section index:
+       1.  Variables & resets (CSS custom properties = the color palette)
+       2.  Typography
+       3.  Buttons (.btn-accent overrides for the rust-orange CTA)
+       4.  Navbar (+ treatments dropdown)
+       5.  Footer (+ social icons)
+       6.  Hero sections (full-bleed image with blur overlay)
+       7.  Therapist portrait (round, with !important to force-unblur)
+       8.  About section
+       9.  Approach section (overlay over background image)
+       10. Treatment cards + carousel
+       11. Forms
+       12. Calendar grid (CSS Grid)
+       13. Loading overlay + spinner animation
+       14. Scroll-fade animation
+       15. Custom alert variant
+       16. Treatment detail page extras
+       17. Responsive breakpoints (≤991px, ≤767px)
+   ========================================================================= */
+
+/* ===== 1. VARIABLES & RESETS ===== */
+/* "Calm / Relaxing" palette. The custom properties below are referenced
+   everywhere else in the file — changing the values here re-themes the
+   whole site at once. */
+:root {
+    --color-primary:      #5C7E9C;   /* muted dusty blue — navbar, footer, headings */
+    --color-primary-dark: #41617C;
+    --color-accent:       #C8553D;   /* rust orange — CTAs */
+    --color-accent-hover: #A8412C;
+    --color-bg:           #F5EFE6;   /* warm beige body */
+    --color-white:        #FFFFFF;
+    --color-text:         #3D3D3D;   /* soft dark gray */
+    --color-muted:        #7A7A7A;
+    --font-main: 'Open Sans', sans-serif;
+    --transition: all 0.3s ease;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ===== 2. TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--color-accent-hover);
+}
+
+/* ===== 3. BUTTONS ===== */
+.btn-accent {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    padding: 0.6rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-accent:hover {
+    background-color: var(--color-accent-hover);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(200, 85, 61, 0.4);
+}
+
+.btn-accent:active {
+    transform: translateY(0);
+}
+
+/* ===== 4. NAVBAR ===== */
+.navbar {
+    background-color: var(--color-primary) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 1030;
+}
+
+.navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.navbar .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.375rem;
+    transition: var(--transition);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Treatments dropdown inside the navbar */
+.navbar .dropdown-menu {
+    background-color: var(--color-primary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 0.25rem 0;
+    min-width: 240px;
+}
+.navbar .dropdown-item {
+    color: var(--color-white);
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+}
+.navbar .dropdown-item:hover,
+.navbar .dropdown-item:focus {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+}
+.navbar .dropdown-item-all {
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.25rem;
+}
+/* RTL: place the caret on the left side of the label */
+.navbar .dropdown-toggle::after {
+    margin-right: 0.5rem;
+    margin-left: 0;
+}
+
+/* ===== 5. FOOTER ===== */
+footer {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+footer a:hover {
+    color: var(--color-white);
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 0.3rem;
+    transition: var(--transition);
+}
+
+.social-icons a:hover {
+    background: var(--color-accent);
+    transform: translateY(-3px);
+}
+
+/* ===== 6. HERO SECTIONS WITH BLUR ===== */
+.hero-section {
+    position: relative;
+    min-height: 70vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: url('../images/sunset.png') center/cover no-repeat;
+    filter: blur(5px);
+    z-index: 0;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(92, 126, 156, 0.5);
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--color-white);
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    color: var(--color-white);
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+}
+
+/* Page-specific hero backgrounds */
+.hero-treatments::before {
+    background-image: url('../images/meadow.png');
+}
+
+.hero-contact::before {
+    background-image: url('../images/sunset.png');
+}
+
+.hero-appointments::before {
+    background-image: url('../images/meadow.png');
+}
+
+.hero-small {
+    min-height: 35vh;
+}
+
+/* ===== 7. THERAPIST PORTRAIT =====
+   The image lives inside the about-section which has no filter applied,
+   but we still use `filter: none !important` defensively in case any
+   ancestor (or future change) tries to blur it. The portrait must remain
+   crisp and unblurred per the design brief. */
+.therapist-portrait {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border: 5px solid var(--color-accent);
+    border-radius: 50%;
+    filter: none !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* ===== 8. ABOUT SECTION ===== */
+.about-section {
+    padding: 5rem 0;
+    background: var(--color-white);
+}
+
+.about-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.about-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-accent);
+    margin-top: 0.75rem;
+    border-radius: 2px;
+}
+
+/* ===== 9. APPROACH SECTION ===== */
+.approach-section {
+    position: relative;
+    padding: 5rem 0;
+    overflow: hidden;
+}
+
+.approach-section::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: url('../images/meadow.png') center/cover no-repeat;
+    filter: blur(6px);
+    z-index: 0;
+}
+
+.approach-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(92, 126, 156, 0.55);
+    z-index: 0;
+}
+
+.approach-content {
+    position: relative;
+    z-index: 1;
+    color: var(--color-white);
+}
+
+.approach-content h2 {
+    color: var(--color-white);
+}
+
+.approach-card {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    transition: var(--transition);
+}
+
+.approach-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.approach-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ===== 10. TREATMENT CARDS ===== */
+.treatment-card {
+    border: none;
+    border-radius: 1rem;
+    transition: var(--transition);
+    height: 100%;
+    background: var(--color-white);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.treatment-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.treatment-card .card-body {
+    padding: 2rem 1.5rem;
+}
+
+.treatment-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.treatment-card h5 {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.treatment-card p {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Carousel controls */
+#treatmentsCarousel {
+    position: relative;
+    padding: 0 60px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 45px;
+    height: 45px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.9;
+    position: absolute;
+    /* Override Bootstrap RTL defaults — pin by physical side */
+    left: auto !important;
+    right: auto !important;
+}
+
+.carousel-control-prev {
+    right: 0 !important;
+}
+
+.carousel-control-next {
+    left: 0 !important;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+    background-color: var(--color-accent);
+}
+
+.carousel-indicators button {
+    background-color: var(--color-primary);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--color-accent);
+}
+
+/* ===== 11. FORMS ===== */
+.form-card {
+    background: var(--color-white);
+    border-radius: 1rem;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    overflow: hidden;
+}
+
+.form-card .card-header {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 1.5rem;
+    border: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 0.2rem rgba(200, 85, 61, 0.25);
+}
+
+/* ===== 12. CALENDAR GRID =====
+   The weekly calendar on appointments.html is built with CSS Grid.
+   Layout: one narrow time column + seven equal day columns.
+   Cells get class names ("available", "booked", "my-booking") from JS so
+   we can color-code state without inline styles. */
+.calendar-container {
+    overflow-x: auto;
+    border-radius: 1rem;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    min-width: 700px;
+    background: #ddd;
+    gap: 1px;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.calendar-cell {
+    background: var(--color-white);
+    padding: 0.5rem;
+    min-height: 50px;
+    text-align: center;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.calendar-cell.time-cell {
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.calendar-cell.day-header {
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 700;
+    flex-direction: column;
+    padding: 0.75rem 0.5rem;
+}
+
+.calendar-cell.day-header small {
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.calendar-cell.available {
+    cursor: pointer;
+}
+
+.calendar-cell.available:hover {
+    background: #d5f5e3;
+    transform: scale(1.02);
+}
+
+.calendar-cell.booked {
+    background: #fadbd8;
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: not-allowed;
+}
+
+.calendar-cell.my-booking {
+    background: #d4efdf;
+    color: #27ae60;
+    font-weight: 700;
+    font-size: 0.75rem;
+    border: 2px solid #27ae60;
+}
+
+.week-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.week-nav h4 {
+    margin: 0;
+}
+
+/* ===== 13. LOADING SPINNER =====
+   Full-screen overlay with a spinning circle. Toggled via the "active"
+   class from showLoading() / hideLoading() in common.js. The keyframe
+   animation below is the Part-B-required CSS animation. */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.spinner-custom {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--color-bg);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== 14. ANIMATIONS =====
+   Elements marked `.fade-in` start slightly translated and invisible.
+   The IntersectionObserver in common.js adds the `.visible` class once
+   the element scrolls into view, triggering this transition. */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== 15. ALERT CUSTOM ===== */
+.alert-accent {
+    background-color: rgba(200, 85, 61, 0.1);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* ===== 17. TREATMENT DETAIL PAGE ===== */
+.treatment-icon-large {
+    display: block;
+    font-size: 4.5rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+}
+
+/* Make treatment carousel cards visually obviously clickable */
+a.treatment-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+a.treatment-card-link:hover {
+    color: inherit;
+}
+
+/* ===== 16. RESPONSIVE BREAKPOINTS =====
+   Two breakpoints in addition to whatever Bootstrap provides:
+       ≤ 991px → tablet (hero/portrait/carousel adjustments)
+       ≤ 767px → mobile (smaller hero text, denser calendar) */
+@media (max-width: 991px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .therapist-portrait {
+        width: 220px;
+        height: 220px;
+        margin-bottom: 2rem;
+    }
+
+    #treatmentsCarousel { padding: 0 45px; }
+    .carousel-control-prev { left: 0; }
+    .carousel-control-next { right: 0; }
+}
+
+@media (max-width: 767px) {
+    .hero-section {
+        min-height: 50vh;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-small {
+        min-height: 25vh;
+    }
+
+    .therapist-portrait {
+        width: 180px;
+        height: 180px;
+    }
+
+    .calendar-grid {
+        font-size: 0.7rem;
+        grid-template-columns: 60px repeat(7, 1fr);
+    }
+
+    .calendar-cell {
+        min-height: 40px;
+        padding: 0.25rem;
+    }
+
+.carousel-control-prev,
+    .carousel-control-next {
+        width: 35px;
+        height: 35px;
+    }
+
+    #treatmentsCarousel { padding: 0 40px; }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תחום טיפול | מכון אינטגרציה</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <!-- Hero — populated by treatment-detail.js -->
+        <section class="hero-section hero-small hero-treatments" id="treatmentHero">
+            <div class="hero-content">
+                <span class="treatment-icon-large" id="treatmentIcon">💭</span>
+                <h1 id="treatmentName">...</h1>
+                <p id="treatmentTagline">...</p>
+            </div>
+        </section>
+
+        <!-- Body — populated by treatment-detail.js -->
+        <section class="py-5" id="treatmentBody">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h3 class="mb-3">אודות הטיפול</h3>
+                        <p id="treatmentDesc" class="fs-5"></p>
+
+                        <h3 class="mt-5 mb-3">אופן הטיפול</h3>
+                        <p id="treatmentMethod"></p>
+
+                        <h3 class="mt-5 mb-3">מקורות</h3>
+                        <ul id="treatmentSources" class="text-muted"></ul>
+
+                        <div class="text-center mt-5 d-flex flex-wrap justify-content-center gap-2">
+                            <a href="auth.html?next=appointments.html"
+                               class="btn btn-accent btn-lg px-5" id="bookCta">
+                                לקביעת תור בנושא זה
+                            </a>
+                            <a href="treatments.html"
+                               class="btn btn-outline-secondary btn-lg px-4">
+                                לכל תחומי הטיפול
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shown only if the ?type slug doesn't match any treatment -->
+        <section id="notFound" class="d-none container py-5 text-center">
+            <h2>התחום המבוקש לא נמצא</h2>
+            <p class="text-muted mb-4">ייתכן שהקישור שגוי או שהדף הוסר. תוכלו לחזור לרשימת כל תחומי הטיפול.</p>
+            <a href="treatments.html" class="btn btn-accent">לכל תחומי הטיפול</a>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/treatments.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/treatment-detail.js"></script>
+</body>
+</html>
