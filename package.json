@@ -1,0 +1,28 @@
+{
+  "name": "course-project-group-12",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matanbenshmuel-Hub/Course-project-group-12.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/matanbenshmuel-Hub/Course-project-group-12/issues"
+  },
+  "homepage": "https://github.com/matanbenshmuel-Hub/Course-project-group-12#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "mysql2": "^3.20.0"
+  }
+}
